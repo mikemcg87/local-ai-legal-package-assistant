@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medico-Legal Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+    <style>
+        .upload-drop {
+            border: 1px dashed var(--border-strong);
+            border-radius: var(--radius);
+            background: var(--surface-subtle);
+            min-height: 170px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+            padding: 24px;
+        }
+        .upload-drop:hover,
+        .upload-drop.dragover {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+        }
+        .upload-drop input { display: none; }
+        .file-strip {
+            border: 1px solid var(--border);
+            background: var(--surface-subtle);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .mode-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+        .mode-option {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px;
+            cursor: pointer;
+            background: var(--surface-subtle);
+        }
+        .mode-option.active {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+        }
+        .mode-option strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+        .case-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 12px;
+            align-items: center;
+            padding: 12px 0;
+            border-top: 1px solid var(--border);
+        }
+        .case-row:first-child { border-top: 0; }
+        .case-name {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 13px;
+        }
+        .progress-block {
+            min-height: 180px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+        }
+        .spinner {
+            width: 34px;
+            height: 34px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 14px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <div class="brand">
+                <h1>Medico-Legal Assistant</h1>
+                <span class="context">Local bundle review</span>
+            </div>
+            <nav class="nav-actions">
+                <button class="btn secondary" type="button" onclick="startTour()">Start tour</button>
+                <a class="btn secondary" href="/setup">Local setup</a>
+            </nav>
+        </header>
+
+        <main class="page">
+            <div class="layout-grid">
+                <section class="panel" id="upload-section" data-tour="upload">
+                    <div class="panel-header">
+                        <h2>Load bundle</h2>
+                        {% if setup_status.ready %}
+                            <span class="status ok">Ready</span>
+                        {% elif setup_status.ollama_ok %}
+                            <a class="status warn" href="/setup">Setup needed</a>
+                        {% else %}
+                            <a class="status bad" href="/setup">Ollama offline</a>
+                        {% endif %}
+                    </div>
+                    <div class="panel-body stack">
+                        <div class="upload-drop" id="upload-area">
+                            <div>
+                                <strong>Drop a PDF bundle here</strong>
+                                <p class="muted small" style="margin-top: 6px;">or click to select from this machine</p>
+                            </div>
+                            <input type="file" id="pdf-input" accept=".pdf">
+                        </div>
+
+                        <div id="file-details" class="hidden stack">
+                            <div class="file-strip">
+                                <div>
+                                    <strong id="file-name"></strong>
+                                    <div class="muted small" id="file-size"></div>
+                                </div>
+                                <button class="btn secondary" type="button" onclick="resetUpload()">Change</button>
+                            </div>
+
+                            <div id="password-group" class="hidden">
+                                <label class="label" for="password">PDF password</label>
+                                <input class="input" type="password" id="password" placeholder="Required for encrypted PDFs">
+                            </div>
+
+                            <div>
+                                <label class="label" for="case-name">Case name</label>
+                                <input class="input" type="text" id="case-name" placeholder="smith_v_jones_2024">
+                            </div>
+
+                            <div>
+                                <label class="label" for="instructions">Case instructions</label>
+                                <textarea class="textarea" id="instructions" placeholder="Paste law-firm instructions or scope notes."></textarea>
+                            </div>
+
+                            <div>
+                                <span class="label">Extraction mode</span>
+                                <div class="mode-grid">
+                                    <button class="mode-option" id="ocr-mode" type="button" onclick="setExtractionMode(false)">
+                                        <strong>OCR</strong>
+                                        <span class="muted small">Faster. Best for typed records.</span>
+                                    </button>
+                                    <button class="mode-option active" id="vlm-mode" type="button" onclick="setExtractionMode(true)">
+                                        <strong>VLM</strong>
+                                        <span class="muted small">Slower. Better for complex layouts.</span>
+                                    </button>
+                                </div>
+                                <input type="checkbox" id="vlm-toggle" checked hidden>
+                            </div>
+
+                            <button class="btn full" id="process-btn" onclick="processBundle()">Process bundle</button>
+                        </div>
+                    </div>
+                </section>
+
+                <aside class="stack">
+                    <section class="panel" data-tour="setup">
+                        <div class="panel-header">
+                            <h2>Local status</h2>
+                            <a href="/setup" class="small">Details</a>
+                        </div>
+                        <div class="panel-body stack">
+                            <div class="callout {% if setup_status.ready %}good{% elif setup_status.ollama_ok %}warn{% else %}bad{% endif %}">
+                                <strong>
+                                    {% if setup_status.ready %}
+                                        Model stack ready
+                                    {% elif setup_status.ollama_ok %}
+                                        Model setup incomplete
+                                    {% else %}
+                                        Ollama is not reachable
+                                    {% endif %}
+                                </strong>
+                                <p class="muted small" style="margin-top: 5px;">
+                                    {{ setup_status.chat_model_count }} chat model(s), {{ setup_status.embedding_model_count }} retrieval model(s).
+                                </p>
+                            </div>
+                            <div>
+                                <span class="label">Machine</span>
+                                <p><strong>{{ setup_status.machine.label }}</strong></p>
+                                <p class="muted small">{{ setup_status.memory_gb or "Unknown" }}{% if setup_status.memory_gb %} GB RAM{% endif %}</p>
+                            </div>
+                            {% if setup_status.recommended_chat_model %}
+                            <div>
+                                <span class="label">Suggested model</span>
+                                <span class="code">{{ setup_status.recommended_chat_model }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </section>
+
+                    <section class="panel" data-tour="cases">
+                        <div class="panel-header">
+                            <h2>Cases</h2>
+                            <span class="status neutral">{{ cases|length }}</span>
+                        </div>
+                        <div class="panel-body">
+                            {% if cases %}
+                                {% for case in cases %}
+                                <div class="case-row" id="case-{{ case }}">
+                                    <div style="min-width: 0;">
+                                        <strong class="case-name" title="{{ case }}">{{ case }}</strong>
+                                        <span class="muted small">Indexed local case</span>
+                                    </div>
+                                    <div class="button-row">
+                                        <a class="btn secondary" href="/chat/{{ case }}">Open</a>
+                                        <button class="btn danger" onclick="deleteCase('{{ case }}')">Delete</button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="empty-state">No cases indexed yet.</div>
+                            {% endif %}
+                        </div>
+                    </section>
+                </aside>
+            </div>
+
+            <section class="panel hidden" id="processing-section" style="margin-top: 18px;">
+                <div class="progress-block">
+                    <div>
+                        <div class="spinner"></div>
+                        <h2 id="progress-text">Processing bundle</h2>
+                        <p class="muted small" style="margin-top: 8px;">Keep this window open while extraction and indexing run.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="tour-backdrop hidden" id="tour-backdrop"></div>
+    <div class="tour-card hidden" id="tour-card">
+        <h2 id="tour-title"></h2>
+        <p class="muted" id="tour-body"></p>
+        <div class="tour-actions">
+            <button class="btn secondary" type="button" onclick="endTour()">Skip</button>
+            <span class="muted small" id="tour-count"></span>
+            <button class="btn" type="button" onclick="nextTourStep()" id="tour-next">Next</button>
+        </div>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('upload-area');
+        const pdfInput = document.getElementById('pdf-input');
+        const fileDetails = document.getElementById('file-details');
+        const passwordGroup = document.getElementById('password-group');
+        const vlmToggle = document.getElementById('vlm-toggle');
+        const ocrMode = document.getElementById('ocr-mode');
+        const vlmMode = document.getElementById('vlm-mode');
+        let uploadedFilePath = null;
+        let tourIndex = 0;
+        const tourSteps = [
+            {
+                selector: '[data-tour="setup"]',
+                title: '1. Check local setup',
+                body: 'Start here. The app checks whether a local model runtime, chat model, and retrieval model are ready before you load confidential bundles.'
+            },
+            {
+                selector: '[data-tour="upload"]',
+                title: '2. Load the bundle',
+                body: 'Upload the PDF, name the case, paste any instructions, then choose OCR for speed or VLM for difficult layouts.'
+            },
+            {
+                selector: '[data-tour="cases"]',
+                title: '3. Open a case',
+                body: 'Existing indexed cases open into the review desk, where you can ask factual questions and inspect the retrieved source chunks.'
+            }
+        ];
+
+        function setExtractionMode(useVlm) {
+            vlmToggle.checked = useVlm;
+            ocrMode.classList.toggle('active', !useVlm);
+            vlmMode.classList.toggle('active', useVlm);
+        }
+
+        function resetUpload() {
+            uploadedFilePath = null;
+            pdfInput.value = '';
+            fileDetails.classList.add('hidden');
+            uploadArea.classList.remove('hidden');
+        }
+
+        uploadArea.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+
+        uploadArea.addEventListener('drop', (event) => {
+            event.preventDefault();
+            uploadArea.classList.remove('dragover');
+            if (event.dataTransfer.files.length) handleFile(event.dataTransfer.files[0]);
+        });
+
+        uploadArea.addEventListener('click', () => pdfInput.click());
+        pdfInput.addEventListener('change', (event) => {
+            if (event.target.files.length) handleFile(event.target.files[0]);
+        });
+
+        async function handleFile(file) {
+            if (!file.name.toLowerCase().endsWith('.pdf')) {
+                alert('Select a PDF file.');
+                return;
+            }
+
+            document.getElementById('file-name').textContent = file.name;
+            document.getElementById('file-size').textContent = `${(file.size / 1024 / 1024).toFixed(2)} MB`;
+            document.getElementById('case-name').value = file.name.replace(/\.pdf$/i, '').replace(/[^a-zA-Z0-9]/g, '_');
+
+            const formData = new FormData();
+            formData.append('pdf', file);
+            const response = await fetch('/check-password', { method: 'POST', body: formData });
+            const data = await response.json();
+
+            uploadedFilePath = data.path;
+            passwordGroup.classList.toggle('hidden', !data.needs_password);
+            uploadArea.classList.add('hidden');
+            fileDetails.classList.remove('hidden');
+        }
+
+        async function processBundle() {
+            const caseName = document.getElementById('case-name').value.trim();
+            if (!caseName) {
+                alert('Enter a case name.');
+                return;
+            }
+
+            document.getElementById('upload-section').classList.add('hidden');
+            document.getElementById('processing-section').classList.remove('hidden');
+
+            const response = await fetch('/process', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    path: uploadedFilePath,
+                    case_name: caseName,
+                    password: document.getElementById('password').value || null,
+                    instructions: document.getElementById('instructions').value,
+                    use_vlm: vlmToggle.checked
+                })
+            });
+
+            const data = await response.json();
+            pollStatus(data.case_name);
+        }
+
+        async function pollStatus(caseName) {
+            const response = await fetch(`/status/${caseName}`);
+            const data = await response.json();
+
+            if (data.status === 'processing') {
+                document.getElementById('progress-text').textContent = data.progress || 'Processing bundle';
+                setTimeout(() => pollStatus(caseName), 1000);
+            } else if (data.status === 'complete') {
+                window.location.href = `/chat/${caseName}`;
+            } else if (data.status === 'error') {
+                alert(`Error: ${data.error}`);
+                window.location.reload();
+            }
+        }
+
+        async function deleteCase(caseName) {
+            if (!confirm(`Delete case "${caseName}" and all its data?`)) return;
+
+            const response = await fetch(`/delete-case/${caseName}`, { method: 'POST' });
+            const data = await response.json();
+
+            if (data.status === 'deleted') {
+                document.getElementById(`case-${caseName}`).remove();
+            } else {
+                alert(`Error: ${data.error || 'Unknown error'}`);
+            }
+        }
+
+        function startTour() {
+            tourIndex = 0;
+            localStorage.setItem('bundleRagTourSeen', 'true');
+            showTourStep();
+        }
+
+        function showTourStep() {
+            clearTourHighlight();
+            const step = tourSteps[tourIndex];
+            document.getElementById('tour-backdrop').classList.remove('hidden');
+            document.getElementById('tour-card').classList.remove('hidden');
+            document.getElementById('tour-title').textContent = step.title;
+            document.getElementById('tour-body').textContent = step.body;
+            document.getElementById('tour-count').textContent = `${tourIndex + 1} of ${tourSteps.length}`;
+            document.getElementById('tour-next').textContent = tourIndex === tourSteps.length - 1 ? 'Done' : 'Next';
+            const target = document.querySelector(step.selector);
+            if (target) {
+                target.classList.add('tour-highlight');
+                target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            }
+        }
+
+        function nextTourStep() {
+            if (tourIndex >= tourSteps.length - 1) {
+                endTour();
+                return;
+            }
+            tourIndex += 1;
+            showTourStep();
+        }
+
+        function clearTourHighlight() {
+            document.querySelectorAll('.tour-highlight').forEach((el) => el.classList.remove('tour-highlight'));
+        }
+
+        function endTour() {
+            clearTourHighlight();
+            document.getElementById('tour-backdrop').classList.add('hidden');
+            document.getElementById('tour-card').classList.add('hidden');
+        }
+
+        const forceTour = new URLSearchParams(window.location.search).get('tour') === '1';
+        if (forceTour) {
+            startTour();
+        } else if (!localStorage.getItem('bundleRagTourSeen') && window.innerWidth > 700) {
+            setTimeout(startTour, 500);
+        }
+    </script>
+</body>
+</html>

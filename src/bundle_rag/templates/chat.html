@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ case_name }} - Medico-Legal Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+    <style>
+        body {
+            overflow: hidden;
+        }
+        .review-layout {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 320px minmax(0, 1fr);
+            min-height: 0;
+        }
+        .case-sidebar {
+            border-right: 1px solid var(--border);
+            background: var(--surface);
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .side-section {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .side-section.flex {
+            min-height: 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .side-section textarea {
+            min-height: 220px;
+            flex: 1;
+        }
+        .chat-workspace {
+            min-width: 0;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg);
+        }
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 22px;
+        }
+        .message {
+            max-width: 980px;
+            margin: 0 auto 16px;
+        }
+        .message.user {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .bubble {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            line-height: 1.55;
+        }
+        .message.user .bubble {
+            max-width: 680px;
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        .answer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .source-bar {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+        }
+        .page-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .page-chip,
+        .prompt-chip {
+            border: 1px solid var(--border-strong);
+            background: var(--surface);
+            color: var(--accent);
+            border-radius: 999px;
+            padding: 5px 9px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .page-chip:hover,
+        .prompt-chip:hover {
+            background: var(--accent-soft);
+        }
+        .chunks {
+            display: none;
+            margin-top: 12px;
+            gap: 10px;
+        }
+        .chunks.show {
+            display: grid;
+        }
+        .chunk {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface-subtle);
+            padding: 12px;
+        }
+        .chunk-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .chunk-text {
+            white-space: pre-wrap;
+            max-height: 260px;
+            overflow: auto;
+            font-size: 13px;
+            color: #33322e;
+        }
+        .composer {
+            border-top: 1px solid var(--border);
+            background: var(--surface);
+            padding: 14px 18px;
+        }
+        .composer-inner {
+            max-width: 980px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 10px;
+            align-items: end;
+        }
+        .question-input {
+            min-height: 46px;
+            max-height: 160px;
+            resize: vertical;
+        }
+        .prompt-row {
+            max-width: 980px;
+            margin: 0 auto 10px;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .typing {
+            display: none;
+        }
+        .typing.show {
+            display: block;
+        }
+        @media (max-width: 900px) {
+            body { overflow: auto; }
+            .review-layout {
+                grid-template-columns: 1fr;
+            }
+            .case-sidebar {
+                border-right: 0;
+                border-bottom: 1px solid var(--border);
+            }
+            .side-section.flex textarea {
+                min-height: 130px;
+            }
+            .composer-inner {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <div class="brand">
+                <h1>{{ case_name }}</h1>
+                <span class="context">Bundle review</span>
+            </div>
+            <nav class="nav-actions">
+                <a class="btn secondary" href="/timeline/{{ case_name }}">Timeline</a>
+                <a class="btn secondary" href="/setup">Local setup</a>
+                <a class="btn secondary" href="/">Cases</a>
+            </nav>
+        </header>
+
+        <main class="review-layout">
+            <aside class="case-sidebar">
+                <section class="side-section">
+                    <span class="label">Retrieval controls</span>
+                    <div class="stack">
+                        <div>
+                            <label class="label" for="max-page">Max page</label>
+                            <input class="input" type="number" id="max-page" placeholder="All pages" min="1">
+                        </div>
+                        <div>
+                            <label class="label" for="model-select">Model</label>
+                            <select class="select" id="model-select">
+                                {% if models %}
+                                {% for model in models %}
+                                <option value="{{ model }}" {% if model == current_model %}selected{% endif %}>{{ model }}</option>
+                                {% endfor %}
+                                {% else %}
+                                <option value="">No local models detected</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                        {% if not models %}
+                        <div class="callout warn">
+                            <strong>No model available</strong>
+                            <p class="muted small" style="margin-top: 5px;">Open local setup before asking bundle questions.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </section>
+
+                <section class="side-section flex">
+                    <label class="label" for="instructions">Case instructions</label>
+                    <textarea class="textarea" id="instructions" placeholder="Law-firm instructions or scope notes.">{{ instructions }}</textarea>
+                    <button class="btn full" style="margin-top: 12px;" onclick="saveInstructions()">Save instructions</button>
+                </section>
+            </aside>
+
+            <section class="chat-workspace">
+                <div class="messages" id="chat-messages">
+                    <div class="message">
+                        <div class="bubble">
+                            <div class="answer-header">
+                                <strong>Ready</strong>
+                                <span class="status neutral">Source-first</span>
+                            </div>
+                            <p class="muted">Ask a factual question. Review the retrieved chunks before relying on the summary.</p>
+                        </div>
+                    </div>
+
+                    <div class="message typing" id="typing-indicator">
+                        <div class="bubble">
+                            <strong>Searching bundle...</strong>
+                            <p class="muted small">Retrieving chunks, reranking where enabled, then summarising.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="composer">
+                    <div class="prompt-row">
+                        <button class="prompt-chip" onclick="usePrompt('What is the earliest mention of the main symptom?')">Earliest symptom</button>
+                        <button class="prompt-chip" onclick="usePrompt('What treatment was documented and on which pages?')">Treatment</button>
+                        <button class="prompt-chip" onclick="usePrompt('What investigations or scans are documented?')">Investigations</button>
+                        <button class="prompt-chip" onclick="usePrompt('What is not found in the retrieved bundle evidence?')">Not found</button>
+                    </div>
+                    <div class="composer-inner">
+                        <textarea class="input question-input" id="question-input" placeholder="Ask a factual question about the bundle"></textarea>
+                        <button class="btn" id="send-btn" onclick="sendQuestion()" {% if not models %}disabled{% endif %}>Ask</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const caseName = "{{ case_name }}";
+        const chatMessages = document.getElementById('chat-messages');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const questionInput = document.getElementById('question-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        questionInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendQuestion();
+            }
+        });
+
+        function usePrompt(text) {
+            questionInput.value = text;
+            questionInput.focus();
+        }
+
+        async function sendQuestion() {
+            const question = questionInput.value.trim();
+            if (!question) return;
+
+            addMessage('user', question);
+            questionInput.value = '';
+            sendBtn.disabled = true;
+            typingIndicator.classList.add('show');
+            scrollToBottom();
+
+            try {
+                const response = await fetch('/query', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        case_name: caseName,
+                        question,
+                        model: document.getElementById('model-select').value,
+                        instructions: document.getElementById('instructions').value,
+                        max_page: document.getElementById('max-page').value || null
+                    })
+                });
+
+                const data = await response.json();
+                if (data.error) {
+                    addMessage('assistant', `Error: ${data.error}`, []);
+                } else {
+                    addMessage('assistant', data.summary, data.chunks, data.model);
+                }
+            } catch (error) {
+                addMessage('assistant', `Error: ${error.message}`, []);
+            }
+
+            typingIndicator.classList.remove('show');
+            sendBtn.disabled = false;
+            questionInput.focus();
+        }
+
+        function addMessage(role, content, chunks = null, model = null) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${role}`;
+
+            if (role === 'user') {
+                msgDiv.innerHTML = `<div class="bubble">${escapeHtml(content)}</div>`;
+            } else {
+                const pages = chunks ? [...new Set(chunks.map(c => c.page).filter(p => p && p > 0))].sort((a, b) => a - b) : [];
+                const chunksId = `chunks-${Date.now()}`;
+                let html = `
+                    <div class="bubble">
+                        <div class="answer-header">
+                            <strong>Answer</strong>
+                            ${model ? `<span class="status neutral">${escapeHtml(model)}</span>` : ''}
+                        </div>
+                        <div>${escapeHtml(content).replace(/\n/g, '<br>')}</div>
+                `;
+
+                if (chunks && chunks.length > 0) {
+                    html += `
+                        <div class="source-bar">
+                            <div class="answer-header">
+                                <strong>Sources</strong>
+                                <button class="btn secondary" onclick="toggleChunks('${chunksId}', this)">Review chunks</button>
+                            </div>
+                            <div class="page-list">
+                                ${pages.map(page => `<button class="page-chip" onclick="openPdfPage(${page})">Page ${page}</button>`).join('')}
+                            </div>
+                            <div class="chunks" id="${chunksId}">
+                                ${chunks.map((chunk, index) => `
+                                    <article class="chunk">
+                                        <div class="chunk-head">
+                                            <strong>Chunk ${index + 1}</strong>
+                                            <span class="muted small">Page ${chunk.page || '?'} · score ${(chunk.score || 0).toFixed(3)}</span>
+                                        </div>
+                                        <div class="chunk-text">${escapeHtml(chunk.text || '')}</div>
+                                    </article>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                html += `
+                    <div class="button-row" style="margin-top: 14px;">
+                        <button class="btn secondary" onclick="copyToClipboard(this, \`${escapeForJs(content)}\`)">Copy answer</button>
+                    </div>
+                </div>`;
+
+                msgDiv.innerHTML = html;
+            }
+
+            chatMessages.insertBefore(msgDiv, typingIndicator);
+            scrollToBottom();
+        }
+
+        function toggleChunks(id, button) {
+            const el = document.getElementById(id);
+            el.classList.toggle('show');
+            button.textContent = el.classList.contains('show') ? 'Hide chunks' : 'Review chunks';
+        }
+
+        function openPdfPage(pageNum) {
+            window.open(`/pdf/${caseName}#page=${pageNum}`, '_blank');
+        }
+
+        function copyToClipboard(button, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                button.textContent = 'Copied';
+                setTimeout(() => button.textContent = 'Copy answer', 1800);
+            });
+        }
+
+        async function saveInstructions() {
+            await fetch('/save-instructions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    case_name: caseName,
+                    instructions: document.getElementById('instructions').value
+                })
+            });
+        }
+
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text || '';
+            return div.innerHTML;
+        }
+
+        function escapeForJs(text) {
+            return (text || '').replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
+        }
+
+        if (window.innerWidth > 900) {
+            questionInput.focus();
+        }
+    </script>
+</body>
+</html>

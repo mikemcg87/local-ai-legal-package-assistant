@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Cases (contain sensitive data)
+cases/
+public_cases/
+evals/private/
+reports/private/
+
+# Test data (sensitive)
+test_data/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+uploads/

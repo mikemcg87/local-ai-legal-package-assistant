@@ -1,0 +1,626 @@
+{
+  "suite_path": "evals/public/suite.json",
+  "case": "synthetic-demo",
+  "generated_at": "2026-07-05T19:49:11.262363",
+  "question_count": 7,
+  "metrics": {
+    "page_hit_rate": 1.0,
+    "mean_page_mrr": 0.4333333333333333,
+    "mean_required_term_coverage": 1.0
+  },
+  "questions": [
+    {
+      "id": "onset-back-pain",
+      "question": "When did the patient first report lower back pain?",
+      "expected_pages": [
+        2,
+        4,
+        10
+      ],
+      "retrieved_pages": [
+        1,
+        1,
+        3,
+        4,
+        9,
+        7
+      ],
+      "page_hit": true,
+      "page_mrr": 0.25,
+      "required_terms": [
+        "14 March 2023",
+        "lower back pain",
+        "naproxen"
+      ],
+      "matched_required_terms": 3,
+      "total_required_terms": 3,
+      "required_term_coverage": 1.0,
+      "top_k": 10,
+      "chunks": [
+        {
+          "id": "chunk_3",
+          "page": 1,
+          "score": 0.8355060517787933,
+          "semantic_score": 0.6710121035575867,
+          "bm25_score": 1.0,
+          "rerank_score": null,
+          "dates": "02-06-1971,21-august-2023,26-september-2023",
+          "preview": "PHYSIOTHERAPY PROGRESS NOTE  Lagan Valley Physiotherapy Clinic  Patient: Lagan Valley Physiotherapy Clinic  Patient: Margaret Doyle  Date: 21 August 2023  Therapist: Fiona Marsh, MCSP  Sixth and final physiotherapy session of the referred course. Patient reports approximately 20 per cent improvement in baseline lumbar pain but new intermittent shooting pain into the left leg over the past fortnight, worse with prolonged sitting.  Objective: lumbar flexion mildly improved. Left straight leg ra..."
+        },
+        {
+          "id": "chunk_0",
+          "page": 1,
+          "score": 0.7965589894924061,
+          "semantic_score": 0.6208023428916931,
+          "bm25_score": 0.972315636093119,
+          "rerank_score": null,
+          "dates": "02-06-1971,14-march-2023,02-april-2023",
+          "preview": "## BUNDLE INDEX  In the matter of: In the matter of: Margaret Doyle (Claimant)  Prepared for demonstration purposes. All contents synthetic.  Index of documents: Index of documents:  Page 2 - GP records, Rathmore Medical Practice (extract 1) Page 3 - GP records, Rathmore Medical Practice (extract 2) Page 4 - Referral letter to Orthopaedic Outpatients Page 5 - Physiotherapy initial assessment Page 6 - Physiotherapy progress note Page 7 - MRI lumbar spine report Page 8 - Hospital admission and ..."
+        },
+        {
+          "id": "chunk_1",
+          "page": 3,
+          "score": 0.6996767598252304,
+          "semantic_score": 0.6476542949676514,
+          "bm25_score": 0.7516992246828094,
+          "rerank_score": null,
+          "dates": "02-06-1971,28-april-2023,16-june-2023,01-september-2023",
+          "preview": "GP RECORDS - RATHMORE MEDICAL PRACTICE (EXTRACT 2)  Patient: Margaret Doyle, DOB 02/06/1971  - 28 April 2023 - Consultation, Dr Aoife Brennan Lower back pain worsening, now with intermittent aching into the left buttock. Naproxen giving partial relief only. Added codeine phosphate 30 mg up to four times daily. Discussed referral for physiotherapy; patient agreeable. - 16 June 2023 - Consultation, Dr Aoife Brennan Symptoms persist. Referral made to Lagan Valley Physiotherapy Clinic for assessm..."
+        },
+        {
+          "id": "chunk_2",
+          "page": 4,
+          "score": 0.6833393239648115,
+          "semantic_score": 0.6680912375450134,
+          "bm25_score": 0.6985874103846095,
+          "rerank_score": null,
+          "dates": "02-06-1971,04-september-2023,03-july-2023",
+          "preview": "REFERRAL LETTER  Rathmore Medical Practice 14 Glenview Road  04 September 2023  To: Orthopaedic Outpatients, St Colmcille's General Hospital Re: Margaret Doyle, DOB 02/06/1971  Dear Colleagues,  I would be grateful if you would see this 52-year-old woman with a six-month history of lower back pain tollowing a lifting incident in March 2023. Despite naproxen, codeine phosphate, and a completed course of physiotherapy at Lagan Valley Physiotherapy Clinic, her symptoms have progressed and she no..."
+        },
+        {
+          "id": "chunk_5",
+          "page": 9,
+          "score": 0.620050892167159,
+          "semantic_score": 0.6736248731613159,
+          "bm25_score": 0.566476911173002,
+          "rerank_score": null,
+          "dates": "09-february-2024,14-march-2023,15-november-2023",
+          "preview": "- codeine phosphate STOPPED - naproxen STOPPED - amitriptyline 10 mg at night STARTED for residual neuropathic symptoms - paracetamol 1 g up to four times daily as required CONTINUED  Follow-up: wound review with practice nurse at two weeks; orthopaedic outpatient review with Mr Havelin at six weeks; outpatient physiotherapy referral for post-operative rehabilitation.  Advice given: Advice given: no heavy lifting for six weeks; graded return to activity.  ##  ## WITNESS STATEMENT OF THE CLAIM..."
+        },
+        {
+          "id": "chunk_4",
+          "page": 7,
+          "score": 0.42607229261180046,
+          "semantic_score": 0.6128920912742615,
+          "bm25_score": 0.23925249394933945,
+          "rerank_score": null,
+          "dates": "02-06-1971,02-06-1971,15-november-2023,26-september-2023,15-november-2023,18-november-2023,15-november-2023",
+          "preview": "moderate left paracentral L4/L5 disc protrusion with left L5 nerve root compromise, concordant with the clinical presentation.  ##  ## HOSPITAL ADMISSION AND OPERATION NOTE  St Colmcille's General Hospital  Patient: Margaret Doyle, DOB 02/06/1971  Date of admission: Date of admission: 15 November 2023  Consultant: Mr Conor Havelin, FRCS (Tr &amp; Orth)  Admitted electively for surgical management of left L4/L5 disc protrusion after failed conservative management (analgesia and physiotherapy) ..."
+        }
+      ]
+    },
+    {
+      "id": "imaging-investigations",
+      "question": "Which imaging investigations were documented?",
+      "expected_pages": [
+        7,
+        8,
+        10
+      ],
+      "retrieved_pages": [
+        1,
+        9,
+        1,
+        7,
+        4,
+        3
+      ],
+      "page_hit": true,
+      "page_mrr": 0.25,
+      "required_terms": [
+        "MRI",
+        "lumbar spine",
+        "disc protrusion"
+      ],
+      "matched_required_terms": 3,
+      "total_required_terms": 3,
+      "required_term_coverage": 1.0,
+      "top_k": 10,
+      "chunks": [
+        {
+          "id": "chunk_3",
+          "page": 1,
+          "score": 0.7697131633758545,
+          "semantic_score": 0.539426326751709,
+          "bm25_score": 1.0,
+          "rerank_score": null,
+          "dates": "02-06-1971,21-august-2023,26-september-2023",
+          "preview": "PHYSIOTHERAPY PROGRESS NOTE  Lagan Valley Physiotherapy Clinic  Patient: Lagan Valley Physiotherapy Clinic  Patient: Margaret Doyle  Date: 21 August 2023  Therapist: Fiona Marsh, MCSP  Sixth and final physiotherapy session of the referred course. Patient reports approximately 20 per cent improvement in baseline lumbar pain but new intermittent shooting pain into the left leg over the past fortnight, worse with prolonged sitting.  Objective: lumbar flexion mildly improved. Left straight leg ra..."
+        },
+        {
+          "id": "chunk_5",
+          "page": 9,
+          "score": 0.5543957966530395,
+          "semantic_score": 0.4545999765396118,
+          "bm25_score": 0.6541916167664672,
+          "rerank_score": null,
+          "dates": "09-february-2024,14-march-2023,15-november-2023",
+          "preview": "- codeine phosphate STOPPED - naproxen STOPPED - amitriptyline 10 mg at night STARTED for residual neuropathic symptoms - paracetamol 1 g up to four times daily as required CONTINUED  Follow-up: wound review with practice nurse at two weeks; orthopaedic outpatient review with Mr Havelin at six weeks; outpatient physiotherapy referral for post-operative rehabilitation.  Advice given: Advice given: no heavy lifting for six weeks; graded return to activity.  ##  ## WITNESS STATEMENT OF THE CLAIM..."
+        },
+        {
+          "id": "chunk_0",
+          "page": 1,
+          "score": 0.2666209042072296,
+          "semantic_score": 0.5332418084144592,
+          "bm25_score": 0.0,
+          "rerank_score": null,
+          "dates": "02-06-1971,14-march-2023,02-april-2023",
+          "preview": "## BUNDLE INDEX  In the matter of: In the matter of: Margaret Doyle (Claimant)  Prepared for demonstration purposes. All contents synthetic.  Index of documents: Index of documents:  Page 2 - GP records, Rathmore Medical Practice (extract 1) Page 3 - GP records, Rathmore Medical Practice (extract 2) Page 4 - Referral letter to Orthopaedic Outpatients Page 5 - Physiotherapy initial assessment Page 6 - Physiotherapy progress note Page 7 - MRI lumbar spine report Page 8 - Hospital admission and ..."
+        },
+        {
+          "id": "chunk_4",
+          "page": 7,
+          "score": 0.24934276938438416,
+          "semantic_score": 0.4986855387687683,
+          "bm25_score": 0.0,
+          "rerank_score": null,
+          "dates": "02-06-1971,02-06-1971,15-november-2023,26-september-2023,15-november-2023,18-november-2023,15-november-2023",
+          "preview": "moderate left paracentral L4/L5 disc protrusion with left L5 nerve root compromise, concordant with the clinical presentation.  ##  ## HOSPITAL ADMISSION AND OPERATION NOTE  St Colmcille's General Hospital  Patient: Margaret Doyle, DOB 02/06/1971  Date of admission: Date of admission: 15 November 2023  Consultant: Mr Conor Havelin, FRCS (Tr &amp; Orth)  Admitted electively for surgical management of left L4/L5 disc protrusion after failed conservative management (analgesia and physiotherapy) ..."
+        },
+        {
+          "id": "chunk_2",
+          "page": 4,
+          "score": 0.2331598997116089,
+          "semantic_score": 0.4663197994232178,
+          "bm25_score": 0.0,
+          "rerank_score": null,
+          "dates": "02-06-1971,04-september-2023,03-july-2023",
+          "preview": "REFERRAL LETTER  Rathmore Medical Practice 14 Glenview Road  04 September 2023  To: Orthopaedic Outpatients, St Colmcille's General Hospital Re: Margaret Doyle, DOB 02/06/1971  Dear Colleagues,  I would be grateful if you would see this 52-year-old woman with a six-month history of lower back pain tollowing a lifting incident in March 2023. Despite naproxen, codeine phosphate, and a completed course of physiotherapy at Lagan Valley Physiotherapy Clinic, her symptoms have progressed and she no..."
+        },
+        {
+          "id": "chunk_1",
+          "page": 3,
+          "score": 0.22382500767707825,
+          "semantic_score": 0.4476500153541565,
+          "bm25_score": 0.0,
+          "rerank_score": null,
+          "dates": "02-06-1971,28-april-2023,16-june-2023,01-september-2023",
+          "preview": "GP RECORDS - RATHMORE MEDICAL PRACTICE (EXTRACT 2)  Patient: Margaret Doyle, DOB 02/06/1971  - 28 April 2023 - Consultation, Dr Aoife Brennan Lower back pain worsening, now with intermittent aching into the left buttock. Naproxen giving partial relief only. Added codeine phosphate 30 mg up to four times daily. Discussed referral for physiotherapy; patient agreeable. - 16 June 2023 - Consultation, Dr Aoife Brennan Symptoms persist. Referral made to Lagan Valley Physiotherapy Clinic for assessm..."
+        }
+      ]
+    },
+    {
+      "id": "medication-changes-discharge",
+      "question": "What medication changes were recorded after discharge?",
+      "expected_pages": [
+        9
+      ],
+      "retrieved_pages": [
+        7,
+        9,
+        1,
+        3,
+        1,
+        4
+      ],
+      "page_hit": true,
+      "page_mrr": 0.5,
+      "required_terms": [
+        "amitriptyline",
+        "codeine",
+        "discharge"
+      ],
+      "matched_required_terms": 3,
+      "total_required_terms": 3,
+      "required_term_coverage": 1.0,
+      "top_k": 10,
+      "chunks": [
+        {
+          "id": "chunk_4",
+          "page": 7,
+          "score": 0.7515456080436707,
+          "semantic_score": 0.5030912160873413,
+          "bm25_score": 1.0,
+          "rerank_score": null,
+          "dates": "02-06-1971,02-06-1971,15-november-2023,26-september-2023,15-november-2023,18-november-2023,15-november-2023",
+          "preview": "moderate left paracentral L4/L5 disc protrusion with left L5 nerve root compromise, concordant with the clinical presentation.  ##  ## HOSPITAL ADMISSION AND OPERATION NOTE  St Colmcille's General Hospital  Patient: Margaret Doyle, DOB 02/06/1971  Date of admission: Date of admission: 15 November 2023  Consultant: Mr Conor Havelin, FRCS (Tr &amp; Orth)  Admitted electively for surgical management of left L4/L5 disc protrusion after failed conservative management (analgesia and physiotherapy) ..."
+        },
+        {
+          "id": "chunk_5",
+          "page": 9,
+          "score": 0.43398043050482515,
+          "semantic_score": 0.5802888870239258,
+          "bm25_score": 0.28767197398572447,
+          "rerank_score": null,
+          "dates": "09-february-2024,14-march-2023,15-november-2023",
+          "preview": "- codeine phosphate STOPPED - naproxen STOPPED - amitriptyline 10 mg at night STARTED for residual neuropathic symptoms - paracetamol 1 g up to four times daily as required CONTINUED  Follow-up: wound review with practice nurse at two weeks; orthopaedic outpatient review with Mr Havelin at six weeks; outpatient physiotherapy referral for post-operative rehabilitation.  Advice given: Advice given: no heavy lifting for six weeks; graded return to activity.  ##  ## WITNESS STATEMENT OF THE CLAIM..."
+        },
+        {
+          "id": "chunk_0",
+          "page": 1,
+          "score": 0.2603454887866974,
+          "semantic_score": 0.5206909775733948,
+          "bm25_score": 0.0,
+          "rerank_score": null,
+          "dates": "02-06-1971,14-march-2023,02-april-2023",
+          "preview": "## BUNDLE INDEX  In the matter of: In the matter of: Margaret Doyle (Claimant)  Prepared for demonstration purposes. All contents synthetic.  Index of documents: Index of documents:  Page 2 - GP records, Rathmore Medical Practice (extract 1) Page 3 - GP records, Rathmore Medical Practice (extract 2) Page 4 - Referral letter to Orthopaedic Outpatients Page 5 - Physiotherapy initial assessment Page 6 - Physiotherapy progress note Page 7 - MRI lumbar spine report Page 8 - Hospital admission and ..."
+        },
+        {
+          "id": "chunk_1",
+          "page": 3,
+          "score": 0.25268685817718506,
+          "semantic_score": 0.5053737163543701,
+          "bm25_score": 0.0,
+          "rerank_score": null,
+          "dates": "02-06-1971,28-april-2023,16-june-2023,01-september-2023",
+          "preview": "GP RECORDS - RATHMORE MEDICAL PRACTICE (EXTRACT 2)  Patient: Margaret Doyle, DOB 02/06/1971  - 28 April 2023 - Consultation, Dr Aoife Brennan Lower back pain worsening, now with intermittent aching into the left buttock. Naproxen giving partial relief only. Added codeine phosphate 30 mg up to four times daily. Discussed referral for physiotherapy; patient agreeable. - 16 June 2023 - Consultation, Dr Aoife Brennan Symptoms persist. Referral made to Lagan Valley Physiotherapy Clinic for assessm..."
+        },
+        {
+          "id": "chunk_3",
+          "page": 1,
+          "score": 0.242961585521698,
+          "semantic_score": 0.485923171043396,
+          "bm25_score": 0.0,
+          "rerank_score": null,
+          "dates": "02-06-1971,21-august-2023,26-september-2023",
+          "preview": "PHYSIOTHERAPY PROGRESS NOTE  Lagan Valley Physiotherapy Clinic  Patient: Lagan Valley Physiotherapy Clinic  Patient: Margaret Doyle  Date: 21 August 2023  Therapist: Fiona Marsh, MCSP  Sixth and final physiotherapy session of the referred course. Patient reports approximately 20 per cent improvement in baseline lumbar pain but new intermittent shooting pain into the left leg over the past fortnight, worse with prolonged sitting.  Objective: lumbar flexion mildly improved. Left straight leg ra..."
+        },
+        {
+          "id": "chunk_2",
+          "page": 4,
+          "score": 0.2313440442085266,
+          "semantic_score": 0.4626880884170532,
+          "bm25_score": 0.0,
+          "rerank_score": null,
+          "dates": "02-06-1971,04-september-2023,03-july-2023",
+          "preview": "REFERRAL LETTER  Rathmore Medical Practice 14 Glenview Road  04 September 2023  To: Orthopaedic Outpatients, St Colmcille's General Hospital Re: Margaret Doyle, DOB 02/06/1971  Dear Colleagues,  I would be grateful if you would see this 52-year-old woman with a six-month history of lower back pain tollowing a lifting incident in March 2023. Despite naproxen, codeine phosphate, and a completed course of physiotherapy at Lagan Valley Physiotherapy Clinic, her symptoms have progressed and she no..."
+        }
+      ]
+    },
+    {
+      "id": "physiotherapy-pages",
+      "question": "Which pages mention physiotherapy treatment?",
+      "expected_pages": [
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10
+      ],
+      "retrieved_pages": [
+        4,
+        9,
+        1,
+        3,
+        1,
+        7
+      ],
+      "page_hit": true,
+      "page_mrr": 1.0,
+      "required_terms": [
+        "physiotherapy",
+        "Lagan Valley"
+      ],
+      "matched_required_terms": 2,
+      "total_required_terms": 2,
+      "required_term_coverage": 1.0,
+      "top_k": 10,
+      "chunks": [
+        {
+          "id": "chunk_2",
+          "page": 4,
+          "score": 0.8064448237419128,
+          "semantic_score": 0.6128896474838257,
+          "bm25_score": 1.0,
+          "rerank_score": null,
+          "dates": "02-06-1971,04-september-2023,03-july-2023",
+          "preview": "REFERRAL LETTER  Rathmore Medical Practice 14 Glenview Road  04 September 2023  To: Orthopaedic Outpatients, St Colmcille's General Hospital Re: Margaret Doyle, DOB 02/06/1971  Dear Colleagues,  I would be grateful if you would see this 52-year-old woman with a six-month history of lower back pain tollowing a lifting incident in March 2023. Despite naproxen, codeine phosphate, and a completed course of physiotherapy at Lagan Valley Physiotherapy Clinic, her symptoms have progressed and she no..."
+        },
+        {
+          "id": "chunk_5",
+          "page": 9,
+          "score": 0.7357145645803751,
+          "semantic_score": 0.5595630407333374,
+          "bm25_score": 0.9118660884274128,
+          "rerank_score": null,
+          "dates": "09-february-2024,14-march-2023,15-november-2023",
+          "preview": "- codeine phosphate STOPPED - naproxen STOPPED - amitriptyline 10 mg at night STARTED for residual neuropathic symptoms - paracetamol 1 g up to four times daily as required CONTINUED  Follow-up: wound review with practice nurse at two weeks; orthopaedic outpatient review with Mr Havelin at six weeks; outpatient physiotherapy referral for post-operative rehabilitation.  Advice given: Advice given: no heavy lifting for six weeks; graded return to activity.  ##  ## WITNESS STATEMENT OF THE CLAIM..."
+        },
+        {
+          "id": "chunk_3",
+          "page": 1,
+          "score": 0.4244052173692143,
+          "semantic_score": 0.632609486579895,
+          "bm25_score": 0.21620094815853366,
+          "rerank_score": null,
+          "dates": "02-06-1971,21-august-2023,26-september-2023",
+          "preview": "PHYSIOTHERAPY PROGRESS NOTE  Lagan Valley Physiotherapy Clinic  Patient: Lagan Valley Physiotherapy Clinic  Patient: Margaret Doyle  Date: 21 August 2023  Therapist: Fiona Marsh, MCSP  Sixth and final physiotherapy session of the referred course. Patient reports approximately 20 per cent improvement in baseline lumbar pain but new intermittent shooting pain into the left leg over the past fortnight, worse with prolonged sitting.  Objective: lumbar flexion mildly improved. Left straight leg ra..."
+        },
+        {
+          "id": "chunk_1",
+          "page": 3,
+          "score": 0.4084913817422593,
+          "semantic_score": 0.596880316734314,
+          "bm25_score": 0.22010244675020463,
+          "rerank_score": null,
+          "dates": "02-06-1971,28-april-2023,16-june-2023,01-september-2023",
+          "preview": "GP RECORDS - RATHMORE MEDICAL PRACTICE (EXTRACT 2)  Patient: Margaret Doyle, DOB 02/06/1971  - 28 April 2023 - Consultation, Dr Aoife Brennan Lower back pain worsening, now with intermittent aching into the left buttock. Naproxen giving partial relief only. Added codeine phosphate 30 mg up to four times daily. Discussed referral for physiotherapy; patient agreeable. - 16 June 2023 - Consultation, Dr Aoife Brennan Symptoms persist. Referral made to Lagan Valley Physiotherapy Clinic for assessm..."
+        },
+        {
+          "id": "chunk_0",
+          "page": 1,
+          "score": 0.38072809525912665,
+          "semantic_score": 0.5867236256599426,
+          "bm25_score": 0.1747325648583107,
+          "rerank_score": null,
+          "dates": "02-06-1971,14-march-2023,02-april-2023",
+          "preview": "## BUNDLE INDEX  In the matter of: In the matter of: Margaret Doyle (Claimant)  Prepared for demonstration purposes. All contents synthetic.  Index of documents: Index of documents:  Page 2 - GP records, Rathmore Medical Practice (extract 1) Page 3 - GP records, Rathmore Medical Practice (extract 2) Page 4 - Referral letter to Orthopaedic Outpatients Page 5 - Physiotherapy initial assessment Page 6 - Physiotherapy progress note Page 7 - MRI lumbar spine report Page 8 - Hospital admission and ..."
+        },
+        {
+          "id": "chunk_4",
+          "page": 7,
+          "score": 0.3463230127949085,
+          "semantic_score": 0.5179134607315063,
+          "bm25_score": 0.1747325648583107,
+          "rerank_score": null,
+          "dates": "02-06-1971,02-06-1971,15-november-2023,26-september-2023,15-november-2023,18-november-2023,15-november-2023",
+          "preview": "moderate left paracentral L4/L5 disc protrusion with left L5 nerve root compromise, concordant with the clinical presentation.  ##  ## HOSPITAL ADMISSION AND OPERATION NOTE  St Colmcille's General Hospital  Patient: Margaret Doyle, DOB 02/06/1971  Date of admission: Date of admission: 15 November 2023  Consultant: Mr Conor Havelin, FRCS (Tr &amp; Orth)  Admitted electively for surgical management of left L4/L5 disc protrusion after failed conservative management (analgesia and physiotherapy) ..."
+        }
+      ]
+    },
+    {
+      "id": "operation",
+      "question": "What operation did the patient undergo and when?",
+      "expected_pages": [
+        8,
+        9
+      ],
+      "retrieved_pages": [
+        1,
+        3,
+        7,
+        4,
+        1,
+        9
+      ],
+      "page_hit": true,
+      "page_mrr": 0.16666666666666666,
+      "required_terms": [
+        "microdiscectomy",
+        "15 November 2023"
+      ],
+      "matched_required_terms": 2,
+      "total_required_terms": 2,
+      "required_term_coverage": 1.0,
+      "top_k": 10,
+      "chunks": [
+        {
+          "id": "chunk_3",
+          "page": 1,
+          "score": 0.7686608731746674,
+          "semantic_score": 0.5373217463493347,
+          "bm25_score": 1.0,
+          "rerank_score": null,
+          "dates": "02-06-1971,21-august-2023,26-september-2023",
+          "preview": "PHYSIOTHERAPY PROGRESS NOTE  Lagan Valley Physiotherapy Clinic  Patient: Lagan Valley Physiotherapy Clinic  Patient: Margaret Doyle  Date: 21 August 2023  Therapist: Fiona Marsh, MCSP  Sixth and final physiotherapy session of the referred course. Patient reports approximately 20 per cent improvement in baseline lumbar pain but new intermittent shooting pain into the left leg over the past fortnight, worse with prolonged sitting.  Objective: lumbar flexion mildly improved. Left straight leg ra..."
+        },
+        {
+          "id": "chunk_1",
+          "page": 3,
+          "score": 0.7459172587904811,
+          "semantic_score": 0.5153219699859619,
+          "bm25_score": 0.9765125475950003,
+          "rerank_score": null,
+          "dates": "02-06-1971,28-april-2023,16-june-2023,01-september-2023",
+          "preview": "GP RECORDS - RATHMORE MEDICAL PRACTICE (EXTRACT 2)  Patient: Margaret Doyle, DOB 02/06/1971  - 28 April 2023 - Consultation, Dr Aoife Brennan Lower back pain worsening, now with intermittent aching into the left buttock. Naproxen giving partial relief only. Added codeine phosphate 30 mg up to four times daily. Discussed referral for physiotherapy; patient agreeable. - 16 June 2023 - Consultation, Dr Aoife Brennan Symptoms persist. Referral made to Lagan Valley Physiotherapy Clinic for assessm..."
+        },
+        {
+          "id": "chunk_4",
+          "page": 7,
+          "score": 0.7186731330976017,
+          "semantic_score": 0.6386670470237732,
+          "bm25_score": 0.7986792191714303,
+          "rerank_score": null,
+          "dates": "02-06-1971,02-06-1971,15-november-2023,26-september-2023,15-november-2023,18-november-2023,15-november-2023",
+          "preview": "moderate left paracentral L4/L5 disc protrusion with left L5 nerve root compromise, concordant with the clinical presentation.  ##  ## HOSPITAL ADMISSION AND OPERATION NOTE  St Colmcille's General Hospital  Patient: Margaret Doyle, DOB 02/06/1971  Date of admission: Date of admission: 15 November 2023  Consultant: Mr Conor Havelin, FRCS (Tr &amp; Orth)  Admitted electively for surgical management of left L4/L5 disc protrusion after failed conservative management (analgesia and physiotherapy) ..."
+        },
+        {
+          "id": "chunk_2",
+          "page": 4,
+          "score": 0.678543005303142,
+          "semantic_score": 0.5280699133872986,
+          "bm25_score": 0.8290160972189854,
+          "rerank_score": null,
+          "dates": "02-06-1971,04-september-2023,03-july-2023",
+          "preview": "REFERRAL LETTER  Rathmore Medical Practice 14 Glenview Road  04 September 2023  To: Orthopaedic Outpatients, St Colmcille's General Hospital Re: Margaret Doyle, DOB 02/06/1971  Dear Colleagues,  I would be grateful if you would see this 52-year-old woman with a six-month history of lower back pain tollowing a lifting incident in March 2023. Despite naproxen, codeine phosphate, and a completed course of physiotherapy at Lagan Valley Physiotherapy Clinic, her symptoms have progressed and she no..."
+        },
+        {
+          "id": "chunk_0",
+          "page": 1,
+          "score": 0.6560582289243381,
+          "semantic_score": 0.5322704315185547,
+          "bm25_score": 0.7798460263301215,
+          "rerank_score": null,
+          "dates": "02-06-1971,14-march-2023,02-april-2023",
+          "preview": "## BUNDLE INDEX  In the matter of: In the matter of: Margaret Doyle (Claimant)  Prepared for demonstration purposes. All contents synthetic.  Index of documents: Index of documents:  Page 2 - GP records, Rathmore Medical Practice (extract 1) Page 3 - GP records, Rathmore Medical Practice (extract 2) Page 4 - Referral letter to Orthopaedic Outpatients Page 5 - Physiotherapy initial assessment Page 6 - Physiotherapy progress note Page 7 - MRI lumbar spine report Page 8 - Hospital admission and ..."
+        },
+        {
+          "id": "chunk_5",
+          "page": 9,
+          "score": 0.5988205722228391,
+          "semantic_score": 0.5469175577163696,
+          "bm25_score": 0.6507235867293086,
+          "rerank_score": null,
+          "dates": "09-february-2024,14-march-2023,15-november-2023",
+          "preview": "- codeine phosphate STOPPED - naproxen STOPPED - amitriptyline 10 mg at night STARTED for residual neuropathic symptoms - paracetamol 1 g up to four times daily as required CONTINUED  Follow-up: wound review with practice nurse at two weeks; orthopaedic outpatient review with Mr Havelin at six weeks; outpatient physiotherapy referral for post-operative rehabilitation.  Advice given: Advice given: no heavy lifting for six weeks; graded return to activity.  ##  ## WITNESS STATEMENT OF THE CLAIM..."
+        }
+      ]
+    },
+    {
+      "id": "absent-neurology-referral",
+      "question": "Is there evidence of a referral to a neurologist?",
+      "expected_pages": [],
+      "retrieved_pages": [
+        9,
+        1,
+        1,
+        4,
+        3,
+        7
+      ],
+      "page_hit": false,
+      "page_mrr": 0.0,
+      "required_terms": [],
+      "matched_required_terms": 0,
+      "total_required_terms": 0,
+      "required_term_coverage": 0.0,
+      "top_k": 10,
+      "chunks": [
+        {
+          "id": "chunk_5",
+          "page": 9,
+          "score": 0.7800123393535614,
+          "semantic_score": 0.5600246787071228,
+          "bm25_score": 1.0,
+          "rerank_score": null,
+          "dates": "09-february-2024,14-march-2023,15-november-2023",
+          "preview": "- codeine phosphate STOPPED - naproxen STOPPED - amitriptyline 10 mg at night STARTED for residual neuropathic symptoms - paracetamol 1 g up to four times daily as required CONTINUED  Follow-up: wound review with practice nurse at two weeks; orthopaedic outpatient review with Mr Havelin at six weeks; outpatient physiotherapy referral for post-operative rehabilitation.  Advice given: Advice given: no heavy lifting for six weeks; graded return to activity.  ##  ## WITNESS STATEMENT OF THE CLAIM..."
+        },
+        {
+          "id": "chunk_0",
+          "page": 1,
+          "score": 0.7730508021614897,
+          "semantic_score": 0.5603997111320496,
+          "bm25_score": 0.9857018931909298,
+          "rerank_score": null,
+          "dates": "02-06-1971,14-march-2023,02-april-2023",
+          "preview": "## BUNDLE INDEX  In the matter of: In the matter of: Margaret Doyle (Claimant)  Prepared for demonstration purposes. All contents synthetic.  Index of documents: Index of documents:  Page 2 - GP records, Rathmore Medical Practice (extract 1) Page 3 - GP records, Rathmore Medical Practice (extract 2) Page 4 - Referral letter to Orthopaedic Outpatients Page 5 - Physiotherapy initial assessment Page 6 - Physiotherapy progress note Page 7 - MRI lumbar spine report Page 8 - Hospital admission and ..."
+        },
+        {
+          "id": "chunk_3",
+          "page": 1,
+          "score": 0.7569605966422267,
+          "semantic_score": 0.5582793951034546,
+          "bm25_score": 0.9556417981809988,
+          "rerank_score": null,
+          "dates": "02-06-1971,21-august-2023,26-september-2023",
+          "preview": "PHYSIOTHERAPY PROGRESS NOTE  Lagan Valley Physiotherapy Clinic  Patient: Lagan Valley Physiotherapy Clinic  Patient: Margaret Doyle  Date: 21 August 2023  Therapist: Fiona Marsh, MCSP  Sixth and final physiotherapy session of the referred course. Patient reports approximately 20 per cent improvement in baseline lumbar pain but new intermittent shooting pain into the left leg over the past fortnight, worse with prolonged sitting.  Objective: lumbar flexion mildly improved. Left straight leg ra..."
+        },
+        {
+          "id": "chunk_2",
+          "page": 4,
+          "score": 0.7527752297729235,
+          "semantic_score": 0.5742326974868774,
+          "bm25_score": 0.9313177620589698,
+          "rerank_score": null,
+          "dates": "02-06-1971,04-september-2023,03-july-2023",
+          "preview": "REFERRAL LETTER  Rathmore Medical Practice 14 Glenview Road  04 September 2023  To: Orthopaedic Outpatients, St Colmcille's General Hospital Re: Margaret Doyle, DOB 02/06/1971  Dear Colleagues,  I would be grateful if you would see this 52-year-old woman with a six-month history of lower back pain tollowing a lifting incident in March 2023. Despite naproxen, codeine phosphate, and a completed course of physiotherapy at Lagan Valley Physiotherapy Clinic, her symptoms have progressed and she no..."
+        },
+        {
+          "id": "chunk_1",
+          "page": 3,
+          "score": 0.6758459902006534,
+          "semantic_score": 0.5489173531532288,
+          "bm25_score": 0.802774627248078,
+          "rerank_score": null,
+          "dates": "02-06-1971,28-april-2023,16-june-2023,01-september-2023",
+          "preview": "GP RECORDS - RATHMORE MEDICAL PRACTICE (EXTRACT 2)  Patient: Margaret Doyle, DOB 02/06/1971  - 28 April 2023 - Consultation, Dr Aoife Brennan Lower back pain worsening, now with intermittent aching into the left buttock. Naproxen giving partial relief only. Added codeine phosphate 30 mg up to four times daily. Discussed referral for physiotherapy; patient agreeable. - 16 June 2023 - Consultation, Dr Aoife Brennan Symptoms persist. Referral made to Lagan Valley Physiotherapy Clinic for assessm..."
+        },
+        {
+          "id": "chunk_4",
+          "page": 7,
+          "score": 0.4806198919174359,
+          "semantic_score": 0.549448549747467,
+          "bm25_score": 0.41179123408740476,
+          "rerank_score": null,
+          "dates": "02-06-1971,02-06-1971,15-november-2023,26-september-2023,15-november-2023,18-november-2023,15-november-2023",
+          "preview": "moderate left paracentral L4/L5 disc protrusion with left L5 nerve root compromise, concordant with the clinical presentation.  ##  ## HOSPITAL ADMISSION AND OPERATION NOTE  St Colmcille's General Hospital  Patient: Margaret Doyle, DOB 02/06/1971  Date of admission: Date of admission: 15 November 2023  Consultant: Mr Conor Havelin, FRCS (Tr &amp; Orth)  Admitted electively for surgical management of left L4/L5 disc protrusion after failed conservative management (analgesia and physiotherapy) ..."
+        }
+      ]
+    },
+    {
+      "id": "absent-steroid-injection",
+      "question": "Was a steroid injection administered at any point?",
+      "expected_pages": [],
+      "retrieved_pages": [
+        9,
+        4,
+        1,
+        3,
+        7,
+        1
+      ],
+      "page_hit": false,
+      "page_mrr": 0.0,
+      "required_terms": [],
+      "matched_required_terms": 0,
+      "total_required_terms": 0,
+      "required_term_coverage": 0.0,
+      "top_k": 10,
+      "chunks": [
+        {
+          "id": "chunk_5",
+          "page": 9,
+          "score": 0.751616895198822,
+          "semantic_score": 0.503233790397644,
+          "bm25_score": 1.0,
+          "rerank_score": null,
+          "dates": "09-february-2024,14-march-2023,15-november-2023",
+          "preview": "- codeine phosphate STOPPED - naproxen STOPPED - amitriptyline 10 mg at night STARTED for residual neuropathic symptoms - paracetamol 1 g up to four times daily as required CONTINUED  Follow-up: wound review with practice nurse at two weeks; orthopaedic outpatient review with Mr Havelin at six weeks; outpatient physiotherapy referral for post-operative rehabilitation.  Advice given: Advice given: no heavy lifting for six weeks; graded return to activity.  ##  ## WITNESS STATEMENT OF THE CLAIM..."
+        },
+        {
+          "id": "chunk_2",
+          "page": 4,
+          "score": 0.34993608241633894,
+          "semantic_score": 0.49341416358947754,
+          "bm25_score": 0.20645800124320032,
+          "rerank_score": null,
+          "dates": "02-06-1971,04-september-2023,03-july-2023",
+          "preview": "REFERRAL LETTER  Rathmore Medical Practice 14 Glenview Road  04 September 2023  To: Orthopaedic Outpatients, St Colmcille's General Hospital Re: Margaret Doyle, DOB 02/06/1971  Dear Colleagues,  I would be grateful if you would see this 52-year-old woman with a six-month history of lower back pain tollowing a lifting incident in March 2023. Despite naproxen, codeine phosphate, and a completed course of physiotherapy at Lagan Valley Physiotherapy Clinic, her symptoms have progressed and she no..."
+        },
+        {
+          "id": "chunk_3",
+          "page": 1,
+          "score": 0.34529996931269047,
+          "semantic_score": 0.4838792681694031,
+          "bm25_score": 0.20672067045597783,
+          "rerank_score": null,
+          "dates": "02-06-1971,21-august-2023,26-september-2023",
+          "preview": "PHYSIOTHERAPY PROGRESS NOTE  Lagan Valley Physiotherapy Clinic  Patient: Lagan Valley Physiotherapy Clinic  Patient: Margaret Doyle  Date: 21 August 2023  Therapist: Fiona Marsh, MCSP  Sixth and final physiotherapy session of the referred course. Patient reports approximately 20 per cent improvement in baseline lumbar pain but new intermittent shooting pain into the left leg over the past fortnight, worse with prolonged sitting.  Objective: lumbar flexion mildly improved. Left straight leg ra..."
+        },
+        {
+          "id": "chunk_1",
+          "page": 3,
+          "score": 0.3335499497827234,
+          "semantic_score": 0.5179269909858704,
+          "bm25_score": 0.1491729085795764,
+          "rerank_score": null,
+          "dates": "02-06-1971,28-april-2023,16-june-2023,01-september-2023",
+          "preview": "GP RECORDS - RATHMORE MEDICAL PRACTICE (EXTRACT 2)  Patient: Margaret Doyle, DOB 02/06/1971  - 28 April 2023 - Consultation, Dr Aoife Brennan Lower back pain worsening, now with intermittent aching into the left buttock. Naproxen giving partial relief only. Added codeine phosphate 30 mg up to four times daily. Discussed referral for physiotherapy; patient agreeable. - 16 June 2023 - Consultation, Dr Aoife Brennan Symptoms persist. Referral made to Lagan Valley Physiotherapy Clinic for assessm..."
+        },
+        {
+          "id": "chunk_4",
+          "page": 7,
+          "score": 0.2977935045312349,
+          "semantic_score": 0.4669616222381592,
+          "bm25_score": 0.12862538682431063,
+          "rerank_score": null,
+          "dates": "02-06-1971,02-06-1971,15-november-2023,26-september-2023,15-november-2023,18-november-2023,15-november-2023",
+          "preview": "moderate left paracentral L4/L5 disc protrusion with left L5 nerve root compromise, concordant with the clinical presentation.  ##  ## HOSPITAL ADMISSION AND OPERATION NOTE  St Colmcille's General Hospital  Patient: Margaret Doyle, DOB 02/06/1971  Date of admission: Date of admission: 15 November 2023  Consultant: Mr Conor Havelin, FRCS (Tr &amp; Orth)  Admitted electively for surgical management of left L4/L5 disc protrusion after failed conservative management (analgesia and physiotherapy) ..."
+        },
+        {
+          "id": "chunk_0",
+          "page": 1,
+          "score": 0.23218676447868347,
+          "semantic_score": 0.46437352895736694,
+          "bm25_score": 0.0,
+          "rerank_score": null,
+          "dates": "02-06-1971,14-march-2023,02-april-2023",
+          "preview": "## BUNDLE INDEX  In the matter of: In the matter of: Margaret Doyle (Claimant)  Prepared for demonstration purposes. All contents synthetic.  Index of documents: Index of documents:  Page 2 - GP records, Rathmore Medical Practice (extract 1) Page 3 - GP records, Rathmore Medical Practice (extract 2) Page 4 - Referral letter to Orthopaedic Outpatients Page 5 - Physiotherapy initial assessment Page 6 - Physiotherapy progress note Page 7 - MRI lumbar spine report Page 8 - Hospital admission and ..."
+        }
+      ]
+    }
+  ]
+}

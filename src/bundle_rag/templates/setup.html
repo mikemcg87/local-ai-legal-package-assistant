@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Setup - Medico-Legal Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+    <style>
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+        .metric {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface-subtle);
+            padding: 14px;
+        }
+        .metric strong {
+            display: block;
+            font-size: 24px;
+            margin-top: 5px;
+        }
+        .check-row {
+            display: grid;
+            grid-template-columns: 110px minmax(0, 1fr);
+            gap: 14px;
+            padding: 13px 0;
+            border-top: 1px solid var(--border);
+        }
+        .check-row:first-child { border-top: 0; padding-top: 0; }
+        .recommendations {
+            display: grid;
+            gap: 10px;
+        }
+        .recommendation {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface-subtle);
+            padding: 13px;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 12px;
+            align-items: center;
+        }
+        .command-line {
+            margin-top: 8px;
+            display: inline-block;
+        }
+        .runtime-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+        .runtime-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface-subtle);
+            padding: 14px;
+        }
+        @media (max-width: 760px) {
+            .metric-grid { grid-template-columns: 1fr; }
+            .check-row { grid-template-columns: 1fr; }
+            .recommendation { grid-template-columns: 1fr; }
+            .runtime-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <div class="brand">
+                <h1>Local setup</h1>
+                <span class="context">Model fit and readiness</span>
+            </div>
+            <nav class="nav-actions">
+                <button class="btn secondary" onclick="location.reload()">Refresh</button>
+                <a class="btn secondary" href="/">Back to cases</a>
+            </nav>
+        </header>
+
+        <main class="page">
+            <div class="stack">
+                <section class="panel">
+                    <div class="panel-header">
+                        <h2>Readiness</h2>
+                        {% if setup_status.ready %}
+                            <span class="status ok">Ready</span>
+                        {% elif setup_status.ollama_ok %}
+                            <span class="status warn">Needs attention</span>
+                        {% else %}
+                            <span class="status bad">Blocked</span>
+                        {% endif %}
+                    </div>
+                    <div class="panel-body">
+                        <div class="metric-grid">
+                            <div class="metric">
+                                <span class="label">Memory</span>
+                                <strong>{{ setup_status.memory_gb or "?" }}{% if setup_status.memory_gb %} GB{% endif %}</strong>
+                                <p class="muted small">{{ setup_status.machine.label }}</p>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Chat models</span>
+                                <strong>{{ setup_status.chat_model_count }}</strong>
+                                <p class="muted small">Used to answer bundle questions.</p>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Retrieval models</span>
+                                <strong>{{ setup_status.embedding_model_count }}</strong>
+                                <p class="muted small">Used for embeddings and ranking support.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-header">
+                        <h2>Recommended starting point</h2>
+                        {% if setup_status.recommended_chat_model %}
+                            <span class="code">{{ setup_status.recommended_chat_model }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="panel-body stack">
+                        <div class="callout {% if setup_status.ready %}good{% elif setup_status.ollama_ok %}warn{% else %}bad{% endif %}">
+                            {% if setup_status.recommended_chat_model %}
+                                <strong>{{ setup_status.recommended_chat_model }}</strong>
+                                <p class="muted small" style="margin-top: 6px;">This is selected from installed models only. Keep model choice pluggable and validate quality with private evals.</p>
+                            {% elif setup_status.ollama_ok %}
+                                <strong>No chat model detected</strong>
+                                <p class="muted small" style="margin-top: 6px;">Install one local chat model before reviewing bundles.</p>
+                            {% else %}
+                                <strong>Ollama is not reachable</strong>
+                                <p class="muted small" style="margin-top: 6px;">Start Ollama, then refresh this page.</p>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <span class="label">Extraction default</span>
+                            <p><strong>{{ setup_status.machine.default_extraction }}</strong></p>
+                            <p class="muted small">{{ setup_status.machine.guidance }}</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-header">
+                        <h2>Runtime options</h2>
+                        <span class="status neutral">Local only</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="runtime-grid">
+                            {% for runtime in setup_status.runtime_options %}
+                            <div class="runtime-card">
+                                <div class="button-row">
+                                    <strong>{{ runtime.name }}</strong>
+                                    <span class="status {% if runtime.status == 'ready' %}ok{% elif runtime.name == 'Ollama' %}bad{% else %}warn{% endif %}">{{ runtime.label }}</span>
+                                </div>
+                                <p class="muted small" style="margin-top: 8px;">{{ runtime.reason }}</p>
+                                <p class="muted small" style="margin-top: 8px;"><span class="code">{{ runtime.endpoint }}</span></p>
+                                <p class="small" style="margin-top: 8px;">{{ runtime.next_step }}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-header">
+                        <h2>Suggested installs</h2>
+                        <span class="status neutral">Ollama models</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="recommendations">
+                            {% for item in setup_status.recommended_stack %}
+                            <div class="recommendation">
+                                <div>
+                                    <div class="button-row">
+                                        <strong>{{ item.name }}</strong>
+                                        <span class="status neutral">{{ item.role }}</span>
+                                        <span class="status {% if item.role == 'retrieval' %}ok{% else %}warn{% endif %}">{{ item.fit }}</span>
+                                    </div>
+                                    <p class="muted small" style="margin-top: 6px;">{{ item.reason }}</p>
+                                    <span class="code command-line">{{ item.command }}</span>
+                                </div>
+                                <button class="btn secondary" onclick="copyCommand(this, '{{ item.command }}')">Copy</button>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-header">
+                        <h2>Checks</h2>
+                    </div>
+                    <div class="panel-body">
+                        {% for check in setup_status.checks %}
+                        <div class="check-row">
+                            <span class="status {% if check.ok %}ok{% else %}bad{% endif %}">{% if check.ok %}Pass{% else %}Action{% endif %}</span>
+                            <div>
+                                <strong>{{ check.label }}</strong>
+                                <p class="muted small">{{ check.detail or "" }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-header">
+                        <h2>Installed models</h2>
+                        <span class="status neutral">{{ setup_status.models|length }}</span>
+                    </div>
+                    <div class="panel-body">
+                        {% if setup_status.models %}
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Model</th>
+                                    <th>Size</th>
+                                    <th>Fit</th>
+                                    <th>Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for model in setup_status.models %}
+                                <tr>
+                                    <td><span class="code">{{ model.name }}</span></td>
+                                    <td>{% if model.size_gb %}{{ model.size_gb }} GB{% else %}-{% endif %}</td>
+                                    <td>
+                                        <span class="status {% if model.fit.status == 'good' %}ok{% elif model.fit.status in ['borderline', 'unknown', 'support'] %}warn{% else %}bad{% endif %}">
+                                            {{ model.fit.label }}
+                                        </span>
+                                    </td>
+                                    <td class="muted small">{{ model.fit.reason }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                            <div class="empty-state">No Ollama models detected.</div>
+                        {% endif %}
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script>
+        function copyCommand(button, command) {
+            navigator.clipboard.writeText(command).then(() => {
+                button.textContent = 'Copied';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 1600);
+            });
+        }
+    </script>
+</body>
+</html>
