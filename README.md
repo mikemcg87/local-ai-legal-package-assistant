@@ -40,8 +40,8 @@ A local RAG (Retrieval-Augmented Generation) tool for searching and querying lar
 
 ```bash
 # Clone the repository
-git clone <repo-url>
-cd medical-bundle-rag
+git clone https://github.com/mikemcg87/local-ai-legal-package-assistant.git
+cd local-ai-legal-package-assistant
 
 # Create virtual environment
 python3 -m venv .venv
@@ -158,7 +158,7 @@ TOP_K = 10                   # Number of chunks to retrieve
 ## Project Structure
 
 ```
-medical-bundle-rag/
+local-ai-legal-package-assistant/
 ├── src/bundle_rag/
 │   ├── app.py          # Flask web application
 │   ├── cli.py          # Command-line interface
